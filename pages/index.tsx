@@ -1,14 +1,16 @@
-import { useEffect, useState } from "react";
+mport { useEffect, useState } from "react";
 import Button from "../components/Button";
 import Htag from "../components/Htag";
 import Paragraph from "../components/Paragraph";
 import Tag from "../components/Tag";
 import Rating from "../components/Rating";
+import Layout from "../layout";
 
 export default function Home() {
 
   // useState
   const [counter, setCounter] = useState<number>(() => 1);
+  const [rating, setRating] = useState<number>(3);
 
   // useEffect
   // mounted hook
@@ -24,7 +26,7 @@ export default function Home() {
 
 
   return (
-    <div>
+    <Layout>
       <Htag tag="h1">
         { counter }
       </Htag>
@@ -36,6 +38,19 @@ export default function Home() {
         button1
       </Button>
       <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+     <br />
+     <br />
+     <br />
+
+     
+      
       <Button apeareance="ghost">button2</Button>
       <br />
       <Button apeareance="primary" arrow="down">button1</Button>
@@ -56,7 +71,11 @@ export default function Home() {
       <Tag color="primary" size="medium"> primary medium</Tag>
       <Tag color="green" size="medium">green medium</Tag>
       <br />
-      <Rating rating={4} />
-    </div>
+      <Rating 
+        rating={rating} 
+        isEditable 
+        setRating={setRating}
+      />
+    </Layout>
   );
 }

@@ -7,20 +7,31 @@ import StarIcon from "./star.svg";
 
 const Rating = ({isEditable = false, rating, setRating, ...props}: RatingProps): JSX.Element => {
 
-    const [ratingArray, setRatingArray] = useState<JSX.Element[]>(new Array(5).fill(<></>));
+    // массив с количеством звездочек
+    const [stars, setStars] = useState<JSX.Element[]>(new Array(5).fill(<></>));
 
+    // инициализация звездочек согласно рейтингу
     useEffect(() => {
-        setRatingArray(renderStar(rating));
+        // изменяем состояние компонента согласно рейтингу
+        setStars(renderStar(rating));
     }, [rating]);
 
+    // функция которая создает звездочки и подкрашивает массив звездочек и возвращает
     const renderStar = (currentRating: number): JSX.Element[] => {
-        return ratingArray.map((star: JSX.Element, index: number) => {
+        return stars.map((star: JSX.Element, index: number) => {
             return (
-                <span key={index}>
+                <span
+                    className={classNames(style.star, {
+                        [style.filled]: index < currentRating,
+                        [style.isEditable]: isEditable
+                    })}
+                    onMouseEnter={() => isEditable ?  setStars(renderStar(index+1)) : undefined}
+                    onMouseLeave={() => isEditable ? setStars(renderStar(rating)) : undefined}
+                    onClick={() => isEditable && setRating ? setRating(index + 1) : undefined}
+                >
                     <StarIcon  
-                        className={classNames(style.star, {
-                            [style.filled]: index < currentRating
-                        })}
+                        tabIndex={isEditable ? 0 : -1}
+                        onKeyDown={e => isEditable && setRating && e.code === 'Space' ? setRating(index + 1) : undefined}
                     />
                 </span>
             );
@@ -30,7 +41,7 @@ const Rating = ({isEditable = false, rating, setRating, ...props}: RatingProps):
     return(
         <div {...props}>
             {
-                ratingArray
+                stars.map((r, i) => (<span key={i}>{r}</span>))
             }
         </div>
     );
