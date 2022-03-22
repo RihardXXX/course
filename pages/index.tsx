@@ -1,12 +1,12 @@
-mport { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../components/Button";
 import Htag from "../components/Htag";
 import Paragraph from "../components/Paragraph";
 import Tag from "../components/Tag";
 import Rating from "../components/Rating";
-import Layout from "../layout";
+import { WithLayout } from "../layout/Layout";
 
-export default function Home() {
+const Home = () => {
 
   // useState
   const [counter, setCounter] = useState<number>(() => 1);
@@ -26,7 +26,7 @@ export default function Home() {
 
 
   return (
-    <Layout>
+    <>
       <Htag tag="h1">
         { counter }
       </Htag>
@@ -38,19 +38,6 @@ export default function Home() {
         button1
       </Button>
       <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-     <br />
-     <br />
-     <br />
-
-     
-      
       <Button apeareance="ghost">button2</Button>
       <br />
       <Button apeareance="primary" arrow="down">button1</Button>
@@ -76,6 +63,8 @@ export default function Home() {
         isEditable 
         setRating={setRating}
       />
-    </Layout>
+    </>
   );
-}
+};
+
+export default WithLayout(Home);
