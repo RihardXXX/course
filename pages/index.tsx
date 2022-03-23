@@ -5,8 +5,9 @@ import Paragraph from "../components/Paragraph";
 import Tag from "../components/Tag";
 import Rating from "../components/Rating";
 import { WithLayout } from "../layout/Layout";
+import axios from "axios";
 
-const Home = () => {
+const Home = ({menu}: any) => {
 
   // useState
   const [counter, setCounter] = useState<number>(() => 1);
@@ -63,8 +64,33 @@ const Home = () => {
         isEditable 
         setRating={setRating}
       />
+      <ul>
+        {
+          menu.map((item: any) => <li key={item._id.secondCategory}>{item._id.secondCategory}</li>)
+        }
+      </ul>
     </>
   );
 };
 
 export default WithLayout(Home);
+
+
+// эта штука будет работать на сервере это сср 
+export async function getStaticProps() {
+  const firstCategory = 0;
+  const url = process.env.NEXT_PUBLIC_DOMAIN + '/api/top-page/find'; 
+
+  return axios.post(url, {
+    firstCategory
+  })
+    .then(({data: menu}) => {
+      return {
+        props: {
+          menu,
+          firstCategory
+        }, // will be passed to the page component as props
+      };
+    })
+    .catch(err => console.log(err));
+}

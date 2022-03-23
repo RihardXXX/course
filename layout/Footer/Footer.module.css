@@ -1,0 +1,42 @@
+.footer {
+    display: grid;
+	min-height: 72px;
+	padding: 27px 32px 23px 27px;
+
+	color: var(--white);
+	background-color: var(--primary);
+
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 22px;
+    grid-template-columns: 1fr auto auto;
+    gap: 0 40px;
+	grid-template-areas: "copyright agreement political";
+}
+
+.footer a:hover {
+    color: var(--gray-light);
+}
+
+.copyright {
+	grid-area: copyright;
+}
+
+.agreement {
+	grid-area: agreement;
+}
+
+.political {
+	grid-area: political;
+}
+
+@media (max-width: 766px) {
+    .footer {
+		grid-template-columns: 1fr;
+		gap: 10px;
+		grid-template-areas:
+			"copyright"
+			"agreement"
+			"political";
+	}
+}
