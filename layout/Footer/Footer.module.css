@@ -1,5 +1,6 @@
 .footer {
-    display: grid;
+	display: grid;
+
 	min-height: 72px;
 	padding: 27px 32px 23px 27px;
 
@@ -9,13 +10,13 @@
 	font-size: 16px;
 	font-weight: 500;
 	line-height: 22px;
-    grid-template-columns: 1fr auto auto;
-    gap: 0 40px;
+	grid-template-columns: 1fr auto auto;
+	gap: 0 40px;
 	grid-template-areas: "copyright agreement political";
 }
 
 .footer a:hover {
-    color: var(--gray-light);
+	color: var(--gray-light);
 }
 
 .copyright {
@@ -31,7 +32,7 @@
 }
 
 @media (max-width: 766px) {
-    .footer {
+	.footer {
 		grid-template-columns: 1fr;
 		gap: 10px;
 		grid-template-areas:

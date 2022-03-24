@@ -1,2 +1,4 @@
-import Layout from "./Layout";
-export default Layout;
+import {WithLayout} from "./Layout";
+export {
+    WithLayout
+} ;
