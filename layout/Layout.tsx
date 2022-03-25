@@ -5,6 +5,7 @@ import Footer from "./Footer";
 import classNames from "classnames";
 import style from "./Layout.module.css";
 import { FunctionComponent } from "react";
+import { AppContextProvider } from "../context/app.context.js";
 
 
 const Layout = ({children}: LayoutProps): JSX.Element => {
@@ -23,9 +24,11 @@ const Layout = ({children}: LayoutProps): JSX.Element => {
 const WithLayout = (Component: FunctionComponent) => {
     return (props: any):JSX.Element =>{
         return (
-            <Layout>
-                <Component {...props} />
-            </Layout>
+            <AppContextProvider initialMenu={props.menu} firstCategory={props.firstCategory}>
+                <Layout>
+                    <Component {...props} />
+                </Layout>
+            </AppContextProvider>     
         );
     };
 };

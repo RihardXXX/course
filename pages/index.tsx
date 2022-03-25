@@ -7,7 +7,7 @@ import Rating from "../components/Rating";
 import { WithLayout } from "../layout/Layout";
 import axios from "axios";
 
-const Home = ({menu}: any) => {
+const Home = ({menu, firstCategory}: any) => {
 
   // useState
   const [counter, setCounter] = useState<number>(() => 1);
@@ -64,11 +64,6 @@ const Home = ({menu}: any) => {
         isEditable 
         setRating={setRating}
       />
-      <ul>
-        {
-          menu.map((item: any) => <li key={item._id.secondCategory}>{item._id.secondCategory}</li>)
-        }
-      </ul>
     </>
   );
 };

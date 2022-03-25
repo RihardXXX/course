@@ -1,0 +1,7 @@
+.firstLevel svg {
+    fill: var(--gray-dark);
+}
+
+.firstLevelMenuActive svg {
+    fill: var(--primary);
+}
