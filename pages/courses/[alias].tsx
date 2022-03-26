@@ -20,7 +20,9 @@ const Courses = ({menu, page, products}: any) => {
 
   return (
     <>
-
+      {
+        products.length
+      }
     </>
   );
 };
@@ -49,7 +51,7 @@ export default WithLayout(Courses);
 export async function getStaticPaths() {
   return axios.post(urlMenu, { firstCategory })
     .then(({data: menu}) => {
-      console.log(menu.flatMap((m: any) => m.pages.map((p: any) => '/courses/' + p.alias)));
+      // console.log(menu.flatMap((m: any) => m.pages.map((p: any) => '/courses/' + p.alias)));
       return {
         // сюда прописываем роуты чтобы были доступны в нижней функции
         paths: menu.flatMap((m: any) => m.pages.map((p: any) => '/courses/' + p.alias)),

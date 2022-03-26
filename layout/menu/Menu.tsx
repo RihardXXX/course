@@ -6,6 +6,7 @@ import Courses from './icons/courses.svg';
 import Services from './icons/services.svg';
 import Books from './icons/books.svg';
 import Products from './icons/products.svg';
+import Link from "next/link";
 
 const firstMenu = [
     { id: 0, route: 'courses', name: 'Курсы', icon: <Courses /> },
@@ -18,8 +19,8 @@ const Menu = (): JSX.Element => {
 
     const { menu, setMenu, firstCategory } = useContext(AppContext);
 
-    console.log('firstcategory: ', firstCategory);
-    console.log('menu: ', menu);
+    // console.log('firstcategory: ', firstCategory);
+    // console.log('menu: ', menu);
 
     // первый уровень меню
     const firstLevelMenu = () => {
@@ -29,17 +30,19 @@ const Menu = (): JSX.Element => {
                  firstMenu.map(menu => {
                      return (
                          <div key={menu.route}>
-                             <a href={`/${menu.route}`}>
-                                 <div className={classNames(style.firstLevel, {
-                                     [style.firstLevelMenuActive]: menu.id === firstCategory
-                                 })}>
-                                     {menu.icon}
-                                     <span>
-                                         {menu.name}
-                                     </span>
-                                 </div>
-                             </a>
-                             { menu.id === firstCategory &&  secondLevelMenu(menu) }
+                             <Link href={`/${menu.route}`}>
+                                <a>
+                                    <div className={classNames(style.firstLevel, {
+                                        [style.firstLevelMenuActive]: menu.id === firstCategory
+                                    })}>
+                                        {menu.icon}
+                                        <span>
+                                            {menu.name}
+                                        </span>
+                                    </div>
+                                </a>
+                            </Link>    
+                                { menu.id === firstCategory &&  secondLevelMenu(menu) }
                          </div>
                      );
                  })
@@ -51,16 +54,20 @@ const Menu = (): JSX.Element => {
     // второй уровень меню
     const secondLevelMenu = (firstMenu: any) => {
         return (
-            <div>
+            <div className={style.secondBlock}>
                 {
                     menu.map((secondMenu: any) => {
                         return (
-                            <div key={secondMenu._id.secondCategory}>
-                                <div>
+                            <div 
+                                key={secondMenu._id.secondCategory}
+                                className={classNames(style.secondSection)}
+                            >
+                                <div className={classNames(style.secondLevel)}>
                                     { secondMenu._id.secondCategory }
                                 </div>
-                                <div className={classNames(style.secondLevel, {
-                                    [style.secondLevelOpen]: secondMenu.isOpened
+                                <div className={classNames(style.secondLevelBlock, {
+                                    // [style.secondLevelOpen]: secondMenu.isOpened
+                                    [style.secondLevelOpen]: true
                                 })}>
                                     {
                                         threeLevelMenu(secondMenu.pages, firstMenu.route)
@@ -80,17 +87,20 @@ const Menu = (): JSX.Element => {
         return (
             pages.map((page: any, index: any) => {
                 return (
-                    <a 
-                        key={`${page._id.secondCategory}-${index}`}
+                    <Link 
                         href={`/${route}/${page.alias}`}
-                        className={classNames(style.threeLevel, {
-                            [style.threeLevelActive]: true
-                        })}
+                        key={`${page._id.secondCategory}-${index}`}
                     >
-                        {
-                            page.category
-                        }
-                    </a>
+                        <a
+                            className={classNames(style.threeLevel, {
+                                [style.threeLevelActive]: false
+                            })}
+                            >
+                            {
+                                page.category
+                            }
+                        </a>
+                    </Link>
                 );
             })
         );
