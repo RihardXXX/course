@@ -13,10 +13,10 @@ import { ParsedUrlQuery } from "querystring";
 const firstCategory = 0;
 const urlMenu = process.env.NEXT_PUBLIC_DOMAIN + '/api/top-page/find';
 
-const Courses = ({menu, page, products}: any) => {
-  console.log('menu: ', menu);
-  console.log('page: ', page);
-  console.log('products: ', products);
+const Courses = ({menu, page, products, firstCategory}: any) => {
+  // console.log('menu: ', menu);
+  // console.log('page: ', page);
+  // console.log('products: ', products);
 
   return (
     <>
@@ -100,7 +100,8 @@ export async function getStaticProps({params}: GetStaticPropsContext<ParsedUrlQu
       return { 
         props : {
           ...dataProps,
-          products
+          products,
+          firstCategory
         }
       };
     })

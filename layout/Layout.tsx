@@ -23,6 +23,7 @@ const Layout = ({children}: LayoutProps): JSX.Element => {
 
 const WithLayout = (Component: FunctionComponent) => {
     return (props: any):JSX.Element =>{
+        // console.log('props: ', props);
         return (
             <AppContextProvider initialMenu={props.menu} firstCategory={props.firstCategory}>
                 <Layout>
