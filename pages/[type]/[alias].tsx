@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import axios from "axios";
 import { GetStaticPropsContext } from "next";
 import { ParsedUrlQuery } from "querystring";
+import { firstMenu } from "../../helpers/helpers";
 
 // Мощный инстурмент
 // Создаем пути для приложения
@@ -10,7 +11,7 @@ import { ParsedUrlQuery } from "querystring";
 // билд npm run build 
 // прод npm run start
 
-const firstCategory = 0;
+// const firstCategory = 0;
 const urlMenu = process.env.NEXT_PUBLIC_DOMAIN + '/api/top-page/find';
 
 const Courses = ({menu, page, products, firstCategory}: any) => {
@@ -49,12 +50,22 @@ export default WithLayout(Courses);
 // при помощи этой штуки мы видим роуты при запросах генерируем их чтобы дальше делать запросы 
 // верхние роуты чтобы позружались
 export async function getStaticPaths() {
-  return axios.post(urlMenu, { firstCategory })
-    .then(({data: menu}) => {
+    return Promise.all(firstMenu.map(m => {
+    return axios.post(urlMenu, { firstCategory: m.id });
+  }))
+    .then((response: any) => {
+      let paths: any = [];
+
+      response.forEach(({data: menu}: any) => {
+        // console.log('zzz', menu);
+        paths = paths.concat(menu.flatMap((m: any) => m.pages.map((p: any) => '/courses/' + p.alias)))
+      });
       // console.log(menu.flatMap((m: any) => m.pages.map((p: any) => '/courses/' + p.alias)));
       return {
         // сюда прописываем роуты чтобы были доступны в нижней функции
-        paths: menu.flatMap((m: any) => m.pages.map((p: any) => '/courses/' + p.alias)),
+        // paths: menu.flatMap((m: any) => m.pages.map((p: any) => '/courses/' + p.alias)),
+        // paths: ['/courses/financial-analytics'],
+        paths,
         fallback: true // false or 'blocking'
       };
     })
@@ -72,12 +83,22 @@ export async function getStaticProps({params}: GetStaticPropsContext<ParsedUrlQu
       };
   }  
 
+  const firstCategoryItem = firstMenu.find(m => m.route === params.type);
+
+  if(!firstCategoryItem) {
+    return {
+        notFound: true
+    };
+} 
+
   // console.log('params: ', params); 
   const urlPage = process.env.NEXT_PUBLIC_DOMAIN + '/api/top-page/byAlias/' + params.alias; 
   const urlProducts = process.env.NEXT_PUBLIC_DOMAIN + '/api/product/find/';
 
   // все пропсы которые будем возвращать
   let dataProps = {};
+
+  const firstCategory = firstCategoryItem.id;
 
   // Получаем меню и страницу
   return Promise.all([
